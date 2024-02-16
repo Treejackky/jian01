@@ -68,7 +68,7 @@ app.post('/item',async (req, res) => {
   const Email = new User(req.body)
   const save1 = await Email.save()
 
-  res.send({body:"jian"});
+  User.find().then((users) => { res.json(users) } );
 });
 
 
