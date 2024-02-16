@@ -46,8 +46,19 @@ const User = mongoose.model('users', {
 });
 
 
-app.get('/get', (req, res) => {
+app.get('/', (req, res) => {
   res.send('Welcome to my server!');
+});
+
+
+app.get('/get-user', (req, res) => {
+  //  fetch data from MongoDB 
+  User.find({}, (err, result) => {
+    if (err) {
+      res.send(err);
+    }
+    res.send(result);
+  });
 });
 
 app.post('/item',async (req, res) => {
