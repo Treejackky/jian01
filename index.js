@@ -46,6 +46,11 @@ const User = mongoose.model('users', {
 });
 
 
+app.get('/v1/get'), async (req, res) => {
+   
+  res.send({body:"jian"});
+}
+
 app.post('/v1/get',async (req, res) => {
   console.log('hello');
   const { email} = req.body;
@@ -57,46 +62,6 @@ app.post('/v1/get',async (req, res) => {
   res.send({body:"jian"});
 });
 
-
-// mongoose.connect('mongodb+srv://s6304062636324:<dkoyo8BHLu9g4ujk>@cocohotel.9udsak7.mongodb.net/?retryWrites=true&w=majority');
-
-// mongoose.pluralize(null);
-
-// // สร้างโมเดล User
-// const User = mongoose.model('users', {
-//   email: String,
-//   password: String,
-//   confirmPassword: String,
-//   Name: String,
-//   Lastname: String,
-// });
-
-// // เส้นทางสำหรับการลงทะเบียนผู้ใช้
-// app.post('/api/register', async (req, res) => {
-//   try {
-//     console.log('Request body:', req.body); // ตรวจสอบข้อมูลที่ถูกส่งมาจาก client
-//     const { email,password,confirmPassword,Name,Lastname } = req.body;
-//     const user = new User(req.body);
-//     await user.save();
-//     console.log('User saved successfully:', user); // ตรวจสอบข้อมูลผู้ใช้ที่ถูกบันทึกลงใน MongoDB
-//     res.status(201).send('User registered successfully');
-//     return; // ส่ง response แล้วหยุดการทำงานของ function ทันที
-//   } catch (error) {
-//     console.error('Registration error:', error);
-//     res.status(500).send('Registration error');
-//   }
-  
-// });
-// app.post('/v1/get',async (req, res) => {
-//   console.log('hello');
-//   const { email} = req.body;
-//   console.log(req.body);
-
-//   const Email = new User(req.body)
-//   const save1 = await Email.save()
-
-//   res.send({body:"jian"});
-// });
 
 app.listen(8765, () => {
   console.log('Server is running on port 8765');
