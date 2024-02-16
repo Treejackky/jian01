@@ -47,7 +47,12 @@ const User = mongoose.model('users', {
 
 
 app.get('/', (req, res) => {
-  res.send('Welcome to my server!');
+  res.send({
+    api: 'Coco Hotel API',
+    version: '1.0.0',
+    link1: '/user',
+    link2: '/item',
+  });
 });
 
 
