@@ -46,7 +46,7 @@ const User = mongoose.model('users', {
 });
 
 
-app.get('/', (req, res) => {
+app.get('/get', (req, res) => {
   res.send('Welcome to my server!');
 });
 
