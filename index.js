@@ -62,8 +62,8 @@ app.post('/v1/item',async (req, res) => {
 });
 
 
-app.listen(8765, () => {
-  console.log('Server is running on port 8765');
+app.listen(9001, () => {
+  console.log('Server is running on port 9001');
 });
 
 
