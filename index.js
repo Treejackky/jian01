@@ -46,12 +46,12 @@ const User = mongoose.model('users', {
 });
 
 
-app.get('/v1/get'), async (req, res) => {
+app.get('/'), async (req, res) => {
    
   res.send({body:"jian"});
 }
 
-app.post('/v1/get',async (req, res) => {
+app.post('/v1/item',async (req, res) => {
   console.log('hello');
   const { email} = req.body;
   console.log(req.body);
