@@ -50,7 +50,7 @@ app.get('/get', (req, res) => {
   res.send('Welcome to my server!');
 });
 
-app.post('/v1/item',async (req, res) => {
+app.post('/item',async (req, res) => {
   console.log('hello');
   const { email} = req.body;
   console.log(req.body);
