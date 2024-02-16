@@ -1,71 +1,92 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const { MongoClient, ServerApiVersion } = require('mongodb');
+
 const app = express();
+app.use(bodyParser.json());
 var cors = require('cors');
-
-app.use(express.json()); // Use Express's built-in body-parser
 app.use(cors());
+// เชื่อมต่อ MongoDB
 
-// MongoDB Connection URI
 let token = 'dkoyo8BHLu9g4ujk';
-const uri = `mongodb+srv://s6304062636324:${token}@cocohotel.9udsak7.mongodb.net/?retryWrites=true&w=majority`;
 
-// Connect to MongoDB with Mongoose
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Successfully connected to MongoDB'))
-  .catch(err => console.error('Could not connect to MongoDB:', err));
+const uri = "mongodb+srv://s6304062636324:"+token+"@cocohotel.9udsak7.mongodb.net/?retryWrites=true&w=majority";
 
-mongoose.pluralize(null); // Prevent Mongoose from pluralizing collection names
 
-// Define a Mongoose model for users
-const User = mongoose.model('users', { email: String });
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+});
 
-// Root endpoint
+async function run() {
+  try {
+    // Connect the client to the server	(optional starting in v4.7)
+    await client.connect();
+    // Send a ping to confirm a successful connection
+    await client.db("admin").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await client.close();
+  }
+}
+run().catch(console.dir);
+
+
+mongoose.connect(uri);
+mongoose.pluralize(null);
+
+
+const User = mongoose.model('users', {
+  email: String,
+});
+
+
 app.get('/', (req, res) => {
   res.send({
     api: 'Coco Hotel API',
     version: '1.0.0',
-    endpoints: ['/user', '/item']
+    link1: '/user',
+    link2: '/item',
   });
 });
 
-// Get all users
-app.get('/user', async (req, res) => {
-  try {
-    const users = await User.find();
-    res.json(users);
-  } catch (error) {
-    res.status(500).send('Error retrieving users from database');
-  }
+
+app.get('/user', (req, res) => {
+  User.find().then((users) => { res.json(users) } );
 });
 
-// Create a new user
-app.post('/item', async (req, res) => {
-  try {
-    const newUser = new User(req.body);
-    await newUser.save();
-    const users = await User.find(); // Optionally, you can just return the newUser if you don't need to return all users
-    res.json(users);
-  } catch (error) {
-    res.status(500).send('Error saving the user');
-  }
+app.post('/item',async (req, res) => {
+  console.log('hello');
+  const { email} = req.body;
+  console.log(req.body);
+
+  const Email = new User(req.body)
+  const save1 = await Email.save()
+
+  // find all and send back
+  User.find().then((users) => { res.json(users) } );
+
 });
 
-// Delete a user
 app.post('/item_del', async (req, res) => {
-  const { id } = req.body;
-  try {
-    await User.findByIdAndDelete({ _id: id});
-    const users = await User.find(); // Return the updated list of users
-    res.json(users);
-  } catch (error) {
-    res.status(500).send('Error deleting the user');
-  }
+  const { id } = req.body;  
+  // ทำให้ลบได้หน่อย
+  const del = await User.findByIdAndDelete(id);
+  // find all and send back
+  User.find().then((users) => { res.json(users) } );
+
 });
 
-// Start the server
+
+
 app.listen(9001, () => {
   console.log('Server is running on port 9001');
 });
+
 
 module.exports = app;
