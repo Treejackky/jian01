@@ -46,10 +46,9 @@ const User = mongoose.model('users', {
 });
 
 
-app.get('/'), async (req, res) => {
-   
-  res.send({body:"jian"});
-}
+app.get('/', (req, res) => {
+  res.send('Welcome to my server!');
+});
 
 app.post('/v1/item',async (req, res) => {
   console.log('hello');
