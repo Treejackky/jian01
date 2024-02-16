@@ -52,12 +52,7 @@ app.get('/', (req, res) => {
 
 
 app.get('/user', (req, res) => {
-   User.find({}, (err, result) => {
-    if (err) {
-      res.send(err);
-    }
-    res.send(result);
-  });
+  User.find().then((users) => { res.json(users) } );
 });
 
 app.post('/item',async (req, res) => {
