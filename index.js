@@ -51,9 +51,8 @@ app.get('/', (req, res) => {
 });
 
 
-app.get('/get-user', (req, res) => {
-  //  fetch data from MongoDB 
-  User.find({}, (err, result) => {
+app.get('/user', (req, res) => {
+   User.find({}, (err, result) => {
     if (err) {
       res.send(err);
     }
